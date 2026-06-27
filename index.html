@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The No-Rote Club — Education shouldn't feel like punishment</title>
+<meta name="description" content="A teen-led nonprofit building an open-source, expert-crafted syllabus that teaches the way brains actually learn. No rote. No rank. No rust.">
+<link rel="icon" href="T.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ NOISE / GRAIN OVERLAY ============ -->
+<div class="grain"></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-logo">
+      <img src="T.png" alt="The No-Rote Club">
+      <span>no-rote club</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#mission">Mission</a>
+      <a href="#problem">The Problem</a>
+      <a href="#solution">The Fix</a>
+      <a href="#support">Support Us</a>
+    </nav>
+    <a href="#support" class="nav-cta">Back the syllabus</a>
+    <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="#mission">Mission</a>
+    <a href="#problem">The Problem</a>
+    <a href="#solution">The Fix</a>
+    <a href="#support">Support Us</a>
+    <a href="#support" class="nav-cta-mobile">Back the syllabus</a>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <canvas id="scribbleCanvas" class="scribble-canvas"></canvas>
+
+  <div class="hero-noise-layer" id="heroNoise" aria-hidden="true">
+    <span class="scribble s1">WRITE THIS 100 TIMES</span>
+    <span class="scribble s2">memorise pg. 47–52</span>
+    <span class="scribble s3">✗</span>
+    <span class="scribble s4">marks ≠ intelligence</span>
+    <span class="scribble s5">re-write. re-write. re-write.</span>
+    <span class="scribble s6">✗</span>
+    <span class="scribble s7">SYLLABUS COMPLETED ≠ LEARNED</span>
+    <span class="scribble s8">8/10</span>
+    <span class="scribble s9">copy from board</span>
+    <span class="scribble s10">✗</span>
+    <span class="scribble s11">no time for questions</span>
+    <span class="scribble s12">DUE TOMORROW</span>
+  </div>
+
+  <div class="hero-content">
+    <p class="hero-heading">Welcome to the <br>No-Rote club</p><br><br>
+    <p class="hero-eyebrow">a teen-built, teen-run nonprofit</p>
+    <p class="hero-sub">We're done memorising. We're building something better — out loud, in the open, starting now.</p>
+    <div class="hero-actions">
+      <a href="#support" class="btn btn-primary">Fund the syllabus</a>
+      <a href="#problem" class="btn btn-ghost">See the problem ↓</a>
+    </div>
+  </div>
+
+  <div class="scroll-cue" aria-hidden="true">
+    <span>scroll to clear the noise</span>
+    <div class="scroll-cue-line"></div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE STRIP ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>ROTE LEARNING KILLS CREATIVITY&nbsp;&nbsp;✦&nbsp;&nbsp;</span>
+    <span>MARKS ≠ INTELLIGENCE&nbsp;&nbsp;✦&nbsp;&nbsp;</span>
+    <span>NO SPACE FOR CURIOSITY&nbsp;&nbsp;✦&nbsp;&nbsp;</span>
+    <span>TEACHERS TEACH TO THE TEST&nbsp;&nbsp;✦&nbsp;&nbsp;</span>
+    <span>ROTE LEARNING KILLS CREATIVITY&nbsp;&nbsp;✦&nbsp;&nbsp;</span>
+    <span>MARKS ≠ INTELLIGENCE&nbsp;&nbsp;✦&nbsp;&nbsp;</span>
+    <span>NO SPACE FOR CURIOSITY&nbsp;&nbsp;✦&nbsp;&nbsp;</span>
+    <span>TEACHERS TEACH TO THE TEST&nbsp;&nbsp;✦&nbsp;&nbsp;</span>
+  </div>
+</div>
+
+<!-- ============ MISSION ============ -->
+<section class="mission" id="mission">
+  <div class="section-inner">
+    <p class="tag tag-red">Our Mission</p>
+    <h2 class="section-title">
+      We're not asking the system<br>to change. <span class="underline-scribble">We're building<br>the alternative.</span>
+    </h2>
+    <p class="section-lede reveal">
+      The No-Rote Club is a nonprofit founded and run by teenagers who got tired of waiting for reform that never comes.
+      We're building an <strong>open-source syllabus</strong> — written with subject experts, taught through multiple
+      learning paths, free for any student who wants to actually understand something instead of memorising it for a Tuesday morning test.
+    </p>
+    <div class="mission-grid">
+      <div class="mission-card reveal">
+        <span class="mission-num">No paywall</span>
+        <h3>Open-source, always</h3>
+        <p>Every lesson we build gets published openly. No school code, no subscription tier, no "premium curriculum."</p>
+      </div>
+      <div class="mission-card reveal">
+        <span class="mission-num">No single path</span>
+        <h3>Built for how you actually learn</h3>
+        <p>Visual, auditory, hands-on, story-based — the same concept, taught five different ways, so nobody gets left behind because they don't learn well from a blackboard.</p>
+      </div>
+      <div class="mission-card reveal">
+        <span class="mission-num">No gatekeeping</span>
+        <h3>Built with experts, run by teens</h3>
+        <p>We bring in subject-matter experts to make sure what we teach is rigorous. We decide what gets built, because we're the ones who have to sit through it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE PROBLEM ============ -->
+<section class="problem" id="problem">
+  <div class="section-inner">
+    <p class="tag tag-dark">The Problem</p>
+    <h2 class="section-title light">Four things wrong with<br>how we're taught.</h2>
+
+    <div class="problem-list">
+
+      <article class="problem-row reveal" data-num="01">
+        <div class="problem-row-head">
+          <span class="problem-row-num">01</span>
+          <h3>Rote learning kills creativity</h3>
+        </div>
+        <p>We're trained to reproduce, not to think. Twelve years of copying down "the correct answer" teaches you what
+        to write, never why it's true — so the moment a question looks unfamiliar, the whole system breaks down.</p>
+        <div class="problem-row-visual">
+          <div class="repeat-line" data-text="copy. memorise. repeat. forget."></div>
+        </div>
+      </article>
+
+      <article class="problem-row reveal" data-num="02">
+        <div class="problem-row-head">
+          <span class="problem-row-num">02</span>
+          <h3>Marks ≠ intelligence</h3>
+        </div>
+        <p>A 95% on a test you forgot by Friday says nothing about what you understand. We've built an entire identity
+        crisis for a generation around a number that measures recall speed under stress, not ability.</p>
+        <div class="problem-row-visual">
+          <div class="grade-stamp">A+</div>
+          <div class="grade-stamp small">does that mean anything?</div>
+        </div>
+      </article>
+
+      <article class="problem-row reveal" data-num="03">
+        <div class="problem-row-head">
+          <span class="problem-row-num">03</span>
+          <h3>No space for curiosity</h3>
+        </div>
+        <p>Ask "why" in most classrooms and you'll get "it's in the syllabus, not on the test." Curiosity isn't
+        rewarded — it's a scheduling problem for someone trying to finish a chapter before the bell rings.</p>
+        <div class="problem-row-visual">
+          <div class="why-stack">
+            <span>why?</span><span>why?</span><span>why?</span><span class="crossed">— not on the test.</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="problem-row reveal" data-num="04">
+        <div class="problem-row-head">
+          <span class="problem-row-num">04</span>
+          <h3>The exam is a Priority</h3>
+        </div>
+        <p>It's not really the teacher's fault — they're measured by board results too. But it means whole subjects get
+        compressed into "what's likely to be asked," and anything that won't appear in the exam quietly disappears.</p>
+        <div class="problem-row-visual">
+          <div class="syllabus-bar">
+            <span class="syllabus-fill"></span>
+            <span class="syllabus-label">82% "exam-relevant" · 18% everything else</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE FIX / SOLUTION ============ -->
+<section class="solution" id="solution">
+  <div class="section-inner">
+    <p class="tag tag-orange">What We're Building</p>
+    <h2 class="section-title">An app, not<br>another protest.</h2>
+    <p class="section-lede reveal">
+      Talk doesn't fix a syllabus. So we're building one. An open-source learning app — free, forever — with lessons
+      crafted alongside real subject experts, delivered through whichever way actually gets a concept into your head.
+    </p>
+
+    <div class="solution-flow">
+      <div class="flow-card reveal">
+        <div class="flow-icon">①</div>
+        <h3>Expert-built lessons</h3>
+        <p>Every topic reviewed by people who actually know the subject — not just whoever wrote the textbook in 2009.</p>
+      </div>
+      <div class="flow-card reveal">
+        <div class="flow-icon">②</div>
+        <h3>Multiple ways in</h3>
+        <p>Watch it, read it, build it, or hear it explained like a story. Same depth, different doors.</p>
+      </div>
+      <div class="flow-card reveal">
+        <div class="flow-icon">③</div>
+        <h3>Open-source, free</h3>
+        <p>No login wall, no paywall. Built in public, improved in public, owned by no one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT US ============ -->
+<section class="about" id="about">
+  <div class="section-inner">
+    <p class="tag tag-red">About Us</p>
+    <h2 class="section-title">Run by the students<br>it's built for.</h2>
+    <p class="section-lede reveal">
+      The No-Rote Club isn't a company with a youth marketing campaign. It's actually started and run by a teenager
+      who is currently sitting through the same system we're trying to fix — homeschool, board exams, the whole thing.
+      We're not consultants telling you what students need. We are the students.
+    </p>
+    <p class="section-lede reveal">
+      We fund this through social media, our community of supporters, and donations — every rupee goes toward paying
+      subject experts and building the app, not offices or salaries.
+    </p>
+  </div>
+</section>
+
+<!-- ============ SUPPORT US ============ -->
+<section class="support" id="support">
+  <div class="section-inner">
+    <p class="tag tag-dark">Support Us</p>
+    <h2 class="section-title light">Building this costs<br>real money. Here's how to help.</h2>
+    <p class="section-lede light reveal">
+      We're not VC-funded. We don't have a marks budget. Every lesson, every expert review, every line of the app
+      gets built on what our community puts in.
+    </p>
+
+    <div class="support-grid">
+      <div class="support-card reveal">
+        <h3>Donate</h3>
+        <p>Direct funding for expert syllabus reviews and development. Every amount goes straight into building the next lesson.</p>
+        <a href="#" class="btn btn-primary btn-block">Donate now</a>
+      </div>
+      <div class="support-card reveal">
+        <h3>Follow & share</h3>
+        <p>Our biggest growth lever is attention. Following and sharing our content directly funds us through social platforms.</p>
+        <a href="#" class="btn btn-ghost btn-block">Follow on Instagram</a>
+      </div>
+      <div class="support-card reveal">
+        <h3>Spread the word</h3>
+        <p>Tell a teacher, a parent, a student who's tired of memorising. The more of us there are, the faster this gets built.</p>
+        <a href="#" class="btn btn-ghost btn-block">Share the mission</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="section-inner footer-inner">
+    <div class="footer-brand">
+      <img src="T.png" alt="The No-Rote Club">
+      <span>no-rote club</span>
+    </div>
+    <p class="footer-line">Built by teens. Funded by people who agree with us. Owned by no one.</p>
+    <div class="footer-links">
+      <a href="#mission">Mission</a>
+      <a href="#problem">The Problem</a>
+      <a href="#solution">The Fix</a>
+      <a href="#support">Support Us</a>
+    </div>
+    <p class="footer-copy">© <span id="year"></span> The No-Rote Club. Open-source, forever.</p>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
