@@ -1,133 +1,1495 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The No-Rote Club — Motion</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="A teen-led nonprofit building an open-source, expert-crafted syllabus that teaches the way brains actually learn. No rote. No rank. No rust."/>
+  <title>The No-Rote Club — Education shouldn't feel like punishment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@400;500&family=Special+Elite&display=swap" rel="stylesheet"/>
+  <style>
+/* ═══════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --white:   #F7F5F0;
+  --ink:     #111111;
+  --mid:     #555555;
+  --light:   #999999;
+  --red:     #E8392A;
+  --yellow:  #F5D600;
+  --chalk:   #E8E4D9;
+  --board:   #1A2E25;
+  --paper:   #FDF8EE;
+  --ruled:   #C8D8E8;
+  --sans:    'Space Grotesk', sans-serif;
+  --body:    'Inter', sans-serif;
+  --typewriter: 'Special Elite', cursive;
+}
+
+/* ═══════════════════════════════════════════
+   RESET
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--body);
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 48px;
+  background: rgba(247,245,240,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1.5px solid var(--ink);
+  transition: background 0.3s;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--sans); font-weight: 600; font-size: 15px;
+}
+.nav-t {
+  width: 30px; height: 30px;
+  background: var(--ink); color: var(--white);
+  display: grid; place-items: center;
+  font-family: var(--sans); font-weight: 700; font-size: 15px;
+  border-radius: 5px;
+}
+.nav-links {
+  display: flex; gap: 32px; list-style: none;
+  font-family: var(--sans); font-size: 13px; font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.nav-links a { color: var(--mid); transition: color 0.2s; }
+.nav-links a:hover { color: var(--ink); }
+.nav-cta {
+  font-family: var(--sans); font-size: 13px; font-weight: 700;
+  background: var(--red); color: var(--white);
+  padding: 9px 22px; border-radius: 40px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  letter-spacing: 0.02em;
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(232,57,42,0.35); }
+
+/* ═══════════════════════════════════════════
+   TICKER
+═══════════════════════════════════════════ */
+.ticker-wrap {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 200; height: 32px;
+  background: var(--red);
+  border-top: 1.5px solid var(--ink);
+  overflow: hidden; display: flex; align-items: center;
+}
+.ticker-track {
+  display: flex; gap: 48px; white-space: nowrap;
+  animation: ticker-scroll 28s linear infinite;
+}
+.ticker-track span {
+  font-family: var(--sans); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); flex-shrink: 0;
+}
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 100px 48px 80px;
+  position: relative; overflow: hidden;
+  text-align: center;
+}
+
+/* Floating ruled-paper lines background */
+.hero-lines {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+}
+.hero-line {
+  position: absolute; left: 0; right: 0; height: 1px;
+  background: var(--ruled); opacity: 0.5;
+}
+
+/* Red margin line */
+.hero-margin {
+  position: absolute; top: 0; bottom: 0; left: 96px; width: 2px;
+  background: rgba(232,57,42,0.25); pointer-events: none;
+}
+
+.hero-noise {
+  position: absolute; top: 80px; left: 0; right: 0;
+  display: flex; flex-wrap: wrap; gap: 8px 16px;
+  padding: 0 48px; opacity: 0;
+  animation: noise-fade 1s 0.3s forwards;
+  pointer-events: none; justify-content: center;
+}
+.hero-noise span {
+  font-family: var(--typewriter); font-size: 13px; color: var(--light);
+  transform: rotate(var(--r, 0deg));
+}
+@keyframes noise-fade { to { opacity: 1; } }
+
+.hero-badge {
+  font-family: var(--sans); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--mid); border: 1.5px solid currentColor;
+  padding: 6px 16px; border-radius: 40px; margin-bottom: 32px;
+  opacity: 0; animation: slide-up 0.6s 0.4s forwards;
+}
+.hero-h1 {
+  font-family: var(--sans); font-weight: 700;
+  font-size: clamp(44px, 8vw, 96px);
+  letter-spacing: -0.04em; line-height: 0.95;
+  margin-bottom: 24px;
+  opacity: 0; animation: slide-up 0.7s 0.55s forwards;
+}
+.hero-h1 em { color: var(--red); font-style: normal; }
+.hero-sub {
+  font-size: clamp(15px, 2vw, 18px); color: var(--mid);
+  max-width: 520px; line-height: 1.7; margin-bottom: 40px;
+  opacity: 0; animation: slide-up 0.7s 0.7s forwards;
+}
+.hero-btns {
+  display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+  opacity: 0; animation: slide-up 0.7s 0.85s forwards;
+}
+.btn-primary {
+  font-family: var(--sans); font-weight: 700; font-size: 15px;
+  background: var(--ink); color: var(--white);
+  padding: 14px 32px; border-radius: 40px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(17,17,17,0.25); }
+.btn-ghost {
+  font-family: var(--sans); font-weight: 600; font-size: 15px;
+  border: 1.5px solid var(--ink); color: var(--ink);
+  padding: 14px 32px; border-radius: 40px;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-ghost:hover { background: var(--ink); color: var(--white); }
+
+.hero-scroll-hint {
+  position: absolute; bottom: 48px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  font-family: var(--sans); font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--light);
+  opacity: 0; animation: slide-up 0.7s 1.1s forwards;
+}
+.scroll-arrow {
+  width: 20px; height: 20px;
+  border-right: 2px solid var(--light);
+  border-bottom: 2px solid var(--light);
+  transform: rotate(45deg);
+  animation: bounce-arrow 1.5s ease-in-out infinite;
+}
+@keyframes bounce-arrow {
+  0%,100% { transform: rotate(45deg) translateY(0); }
+  50% { transform: rotate(45deg) translateY(4px); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════
+   BOOK ANIMATION SECTION (Apple-scroll style)
+═══════════════════════════════════════════ */
+.book-scroll-wrapper {
+  position: relative;
+  height: 400vh; /* tall enough to scroll through */
+}
+.book-scroll-sticky {
+  position: sticky; top: 0;
+  height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  background: var(--white);
+  border-bottom: 1.5px solid var(--ink);
+}
+
+/* The book */
+.book-scene {
+  position: relative; width: 360px; height: 260px;
+  perspective: 1200px;
+}
+.book-cover-left, .book-cover-right {
+  position: absolute; top: 0; bottom: 0;
+  width: 50%; background: var(--ink);
+  border: 2px solid var(--ink);
+  transform-origin: center;
+  transition: none;
+  display: flex; align-items: center; justify-content: center;
+}
+.book-cover-left  { left: 0; border-radius: 4px 0 0 4px; transform-origin: right center; }
+.book-cover-right { right: 0; border-radius: 0 4px 4px 0; transform-origin: left center; }
+.book-cover-left-text {
+  font-family: var(--sans); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--white);
+  writing-mode: vertical-rl; transform: rotate(180deg);
+}
+.book-spine {
+  position: absolute; left: 50%; top: 0; bottom: 0;
+  width: 6px; background: #333;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+.book-pages {
+  position: absolute; top: 4px; bottom: 4px; left: 50%;
+  transform: translateX(-50%);
+  width: 0; overflow: hidden;
+  background: var(--paper);
+  display: flex; flex-direction: column;
+  padding: 16px 12px;
+  gap: 6px;
+  transition: none;
+  z-index: 5;
+  border: 1px solid #ddd;
+}
+.book-rule { height: 1px; background: var(--ruled); width: 100%; }
+.book-text-line {
+  height: 10px; border-radius: 2px;
+  background: var(--ruled); opacity: 0;
+  transition: opacity 0.3s;
+}
+.book-text-line.red-mark {
+  background: var(--red); opacity: 0; width: 60%;
+}
+.book-text-line.striked {
+  background: repeating-linear-gradient(
+    90deg, var(--ruled) 0, var(--ruled) 3px, transparent 3px, transparent 6px
+  );
+}
+
+/* Floating labels beside book */
+.book-label {
+  position: absolute;
+  font-family: var(--sans); font-size: clamp(22px, 3.5vw, 42px);
+  font-weight: 700; letter-spacing: -0.03em;
+  opacity: 0; transition: opacity 0.5s, transform 0.5s;
+  pointer-events: none; white-space: nowrap;
+}
+.book-label-left  { right: calc(50% + 220px); text-align: right; transform: translateX(-20px); }
+.book-label-right { left:  calc(50% + 220px); transform: translateX(20px); }
+.book-label.visible { opacity: 1; transform: translateX(0); }
+.book-label .accent { color: var(--red); }
+
+/* Progress dots */
+.book-dots {
+  position: absolute; bottom: 48px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 10px;
+}
+.book-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--light); transition: background 0.3s, transform 0.3s;
+}
+.book-dot.active { background: var(--ink); transform: scale(1.3); }
+
+/* ═══════════════════════════════════════════
+   CHALKBOARD SECTION
+═══════════════════════════════════════════ */
+.chalkboard-section {
+  background: var(--board);
+  padding: 120px 48px;
+  position: relative; overflow: hidden;
+  border-top: 4px solid #8B7355;
+  border-bottom: 4px solid #8B7355;
+}
+.chalk-tray {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 32px; background: #8B7355;
+  display: flex; align-items: center; padding: 0 24px; gap: 12px;
+}
+.chalk-stick {
+  width: 40px; height: 10px; border-radius: 2px;
+  background: var(--chalk); opacity: 0.8;
+}
+.chalk-stick:nth-child(2) { background: #F5D6D6; width: 28px; }
+.chalk-stick:nth-child(3) { background: #D6F5D6; width: 35px; }
+
+.board-content {
+  max-width: 900px; margin: 0 auto;
+  position: relative; z-index: 2;
+}
+.board-section-label {
+  font-family: var(--sans); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(232,228,217,0.4); margin-bottom: 16px;
+}
+.board-h2 {
+  font-family: var(--sans); font-weight: 700;
+  font-size: clamp(32px, 5vw, 60px); letter-spacing: -0.03em;
+  color: var(--chalk); line-height: 1.1; margin-bottom: 48px;
+}
+.board-h2 .chalk-underline {
+  position: relative; display: inline-block;
+}
+.board-h2 .chalk-underline::after {
+  content: '';
+  position: absolute; bottom: -4px; left: 0; right: 0; height: 3px;
+  background: var(--yellow); border-radius: 2px;
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.8s cubic-bezier(0.77,0,0.18,1);
+}
+.board-h2 .chalk-underline.drawn::after { transform: scaleX(1); }
+
+.chalk-write-line {
+  font-family: var(--typewriter); font-size: 22px;
+  color: var(--chalk); opacity: 0.7; margin-bottom: 12px;
+  overflow: hidden; white-space: nowrap;
+  width: 0; transition: width 0.8s ease;
+}
+.chalk-write-line.written { width: 100%; }
+.chalk-write-line.crossed {
+  text-decoration: line-through;
+  text-decoration-color: var(--red);
+  text-decoration-thickness: 3px;
+}
+
+.board-mission-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px; margin-top: 64px;
+}
+.board-card {
+  border: 1px solid rgba(232,228,217,0.2);
+  border-radius: 8px; padding: 28px 24px;
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.board-card.revealed { opacity: 1; transform: translateY(0); }
+.board-card-tag {
+  font-family: var(--sans); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--red); margin-bottom: 12px;
+}
+.board-card h3 {
+  font-family: var(--sans); font-weight: 600; font-size: 17px;
+  color: var(--chalk); margin-bottom: 10px; line-height: 1.3;
+}
+.board-card p {
+  font-size: 13px; color: rgba(232,228,217,0.6); line-height: 1.65;
+}
+
+/* ═══════════════════════════════════════════
+   PROBLEMS — REPORT CARD SCROLL
+═══════════════════════════════════════════ */
+.problems-section {
+  padding: 0;
+  position: relative;
+}
+.problems-sticky-wrapper {
+  position: relative; height: 300vh;
+}
+.problems-sticky {
+  position: sticky; top: 0; height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+}
+
+/* Left: problem text */
+.problems-text-col {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 80px 64px; background: var(--white);
+  border-right: 1.5px solid var(--ink);
+}
+.prob-section-label {
+  font-family: var(--sans); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--light); margin-bottom: 20px;
+}
+.prob-h2 {
+  font-family: var(--sans); font-weight: 700;
+  font-size: clamp(28px, 3.5vw, 46px); letter-spacing: -0.03em;
+  line-height: 1.1; margin-bottom: 48px;
+}
+
+.prob-items { display: flex; flex-direction: column; gap: 0; }
+.prob-item {
+  padding: 24px 0; border-bottom: 1px solid #E8E4E0;
+  opacity: 0.3; transition: opacity 0.4s, transform 0.4s;
+  transform: translateX(-8px);
+  cursor: default;
+}
+.prob-item.active { opacity: 1; transform: translateX(0); }
+.prob-item.done { opacity: 0.4; }
+.prob-num {
+  font-family: var(--sans); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.1em; color: var(--red); margin-bottom: 8px;
+}
+.prob-title {
+  font-family: var(--sans); font-weight: 700; font-size: 18px;
+  letter-spacing: -0.02em; margin-bottom: 6px;
+}
+.prob-desc {
+  font-size: 14px; color: var(--mid); line-height: 1.65;
+  max-width: 380px;
+}
+
+/* Right: Report card animation */
+.problems-visual-col {
+  background: var(--paper); display: flex;
+  align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+
+/* Ruled paper lines */
+.report-paper-lines {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.rpl { position: absolute; left: 0; right: 0; height: 1px; background: var(--ruled); }
+.rpl-margin { position: absolute; top: 0; bottom: 0; left: 64px; width: 2px; background: rgba(232,57,42,0.3); }
+
+.report-card {
+  position: relative; z-index: 2;
+  width: 300px; background: var(--paper);
+  border: 1px solid #C8C0B0; border-radius: 4px;
+  box-shadow: 4px 4px 0 #C8C0B0, 8px 8px 0 #E0D8C8;
+  padding: 28px 24px;
+  font-family: var(--typewriter);
+  transform: rotate(-1deg);
+}
+.rc-header {
+  text-align: center; border-bottom: 2px solid var(--ink);
+  padding-bottom: 12px; margin-bottom: 16px;
+}
+.rc-title {
+  font-family: var(--sans); font-weight: 700; font-size: 13px;
+  letter-spacing: 0.05em; text-transform: uppercase;
+}
+.rc-sub { font-size: 11px; color: var(--mid); margin-top: 2px; }
+.rc-rows { display: flex; flex-direction: column; gap: 10px; }
+.rc-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 14px; padding-bottom: 8px;
+  border-bottom: 1px solid rgba(200,216,232,0.6);
+  opacity: 0; transform: translateX(-10px);
+  transition: opacity 0.4s, transform 0.4s;
+}
+.rc-row.visible { opacity: 1; transform: none; }
+.rc-subject { color: var(--ink-mid); }
+.rc-grade {
+  font-weight: 700; font-size: 16px;
+  width: 32px; height: 32px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--yellow); color: var(--ink);
+  transition: background 0.4s;
+}
+.rc-grade.red-grade { background: var(--red); color: var(--white); }
+.rc-grade.green-grade { background: #2ECC71; color: var(--white); }
+
+.rc-stamp {
+  position: absolute; top: 24px; right: 20px;
+  font-family: var(--sans); font-weight: 700; font-size: 11px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  border: 3px solid var(--red); color: var(--red);
+  padding: 4px 8px; border-radius: 2px;
+  transform: rotate(15deg);
+  opacity: 0; transition: opacity 0.4s;
+}
+.rc-stamp.visible { opacity: 0.85; }
+
+/* The red question mark floating */
+.rc-question {
+  position: absolute; font-family: var(--sans); font-weight: 700;
+  font-size: 120px; color: var(--red); opacity: 0.05;
+  right: 20px; top: 50%; transform: translateY(-50%);
+  pointer-events: none; transition: opacity 0.5s;
+}
+.rc-question.pop { opacity: 0.12; }
+
+/* ═══════════════════════════════════════════
+   APP SECTION — Phone with scrolling content
+═══════════════════════════════════════════ */
+.app-scroll-wrapper {
+  position: relative; height: 350vh;
+  background: var(--ink);
+}
+.app-scroll-sticky {
+  position: sticky; top: 0; height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+
+.app-bg-text {
+  position: absolute; font-family: var(--sans); font-weight: 700;
+  font-size: clamp(80px, 18vw, 220px); letter-spacing: -0.05em;
+  color: rgba(255,255,255,0.03); white-space: nowrap;
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+  pointer-events: none;
+}
+
+.app-layout {
+  display: flex; align-items: center; gap: 80px;
+  position: relative; z-index: 2;
+}
+
+/* Phone frame */
+.phone-frame {
+  width: 240px; height: 480px; flex-shrink: 0;
+  background: #1A1A1A; border-radius: 36px;
+  border: 6px solid #333;
+  box-shadow: 0 0 0 1px #444, 0 40px 80px rgba(0,0,0,0.6), inset 0 0 0 2px #222;
+  position: relative; overflow: hidden;
+}
+.phone-notch {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 80px; height: 22px; background: #1A1A1A;
+  border-radius: 0 0 16px 16px; z-index: 10;
+}
+.phone-screen {
+  position: absolute; inset: 0; background: #fff;
+  border-radius: 30px; overflow: hidden;
+}
+/* Screens inside phone */
+.phone-slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  padding: 32px 16px 16px;
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.phone-slide.active { opacity: 1; transform: translateY(0); }
+
+/* Slide 1: Home */
+.ps-home { background: #F7F5F0; }
+.ps-app-bar {
+  display: flex; align-items: center; gap: 6px; margin-bottom: 20px;
+}
+.ps-app-dot {
+  width: 22px; height: 22px; background: var(--ink); border-radius: 5px;
+  display: grid; place-items: center;
+  font-family: var(--sans); font-weight: 700; font-size: 11px; color: #F7F5F0;
+}
+.ps-app-name { font-family: var(--sans); font-weight: 600; font-size: 12px; }
+.ps-greeting { font-family: var(--sans); font-weight: 700; font-size: 18px; letter-spacing: -0.02em; margin-bottom: 4px; }
+.ps-sub-text { font-size: 11px; color: #888; margin-bottom: 16px; }
+.ps-cards { display: flex; flex-direction: column; gap: 8px; }
+.ps-card {
+  background: #fff; border-radius: 10px; padding: 12px;
+  border: 1px solid #eee;
+  display: flex; align-items: center; gap: 10px;
+}
+.ps-card-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: grid; place-items: center; font-size: 16px; flex-shrink: 0;
+}
+.ps-card-title { font-family: var(--sans); font-weight: 600; font-size: 12px; }
+.ps-card-prog { font-size: 10px; color: #888; margin-top: 2px; }
+.ps-prog-bar { height: 3px; background: #eee; border-radius: 2px; margin-top: 4px; }
+.ps-prog-fill { height: 100%; border-radius: 2px; background: var(--red); }
+
+/* Slide 2: Lesson */
+.ps-lesson { background: var(--board); }
+.ps-lesson-tag {
+  font-family: var(--sans); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(232,228,217,0.5); margin-bottom: 8px;
+}
+.ps-lesson-title {
+  font-family: var(--sans); font-weight: 700; font-size: 16px;
+  color: var(--chalk); margin-bottom: 4px; line-height: 1.2;
+}
+.ps-lesson-sub { font-size: 10px; color: rgba(232,228,217,0.5); margin-bottom: 16px; }
+.ps-lesson-body {
+  flex: 1; background: rgba(255,255,255,0.05);
+  border-radius: 8px; padding: 12px;
+  font-family: var(--typewriter); font-size: 12px;
+  color: var(--chalk); line-height: 1.7;
+}
+.ps-lesson-actions {
+  display: flex; gap: 8px; margin-top: 12px;
+}
+.ps-btn {
+  flex: 1; padding: 10px; border-radius: 8px;
+  font-family: var(--sans); font-weight: 600; font-size: 11px;
+  text-align: center;
+}
+.ps-btn-primary { background: var(--red); color: #fff; }
+.ps-btn-ghost { background: rgba(255,255,255,0.1); color: var(--chalk); }
+
+/* Slide 3: Quiz */
+.ps-quiz { background: #F7F5F0; }
+.ps-quiz-header {
+  font-family: var(--sans); font-weight: 700; font-size: 14px;
+  letter-spacing: -0.02em; margin-bottom: 4px;
+}
+.ps-quiz-sub { font-size: 10px; color: #888; margin-bottom: 16px; }
+.ps-question {
+  background: #fff; border-radius: 10px; padding: 14px;
+  font-family: var(--sans); font-weight: 600; font-size: 12px;
+  line-height: 1.5; margin-bottom: 12px; border: 1px solid #eee;
+}
+.ps-options { display: flex; flex-direction: column; gap: 6px; }
+.ps-option {
+  background: #fff; border: 1.5px solid #E8E4E0;
+  border-radius: 8px; padding: 10px 12px;
+  font-size: 11px; display: flex; align-items: center; gap: 8px;
+}
+.ps-option.correct { border-color: #2ECC71; background: #F0FFF4; }
+.ps-option.wrong   { border-color: var(--red); background: #FFF5F5; }
+.ps-option-dot {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 1.5px solid #ccc; flex-shrink: 0;
+}
+.ps-option.correct .ps-option-dot { background: #2ECC71; border-color: #2ECC71; }
+.ps-option.wrong   .ps-option-dot { background: var(--red); border-color: var(--red); }
+
+/* App text column */
+.app-text-col {
+  max-width: 420px; color: var(--white);
+}
+.app-section-label {
+  font-family: var(--sans); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(247,245,240,0.35); margin-bottom: 16px;
+}
+.app-slides-text { position: relative; min-height: 200px; }
+.app-text-slide {
+  position: absolute; inset: 0;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+.app-text-slide.active { opacity: 1; transform: none; }
+.app-text-slide h2 {
+  font-family: var(--sans); font-weight: 700;
+  font-size: clamp(28px, 3.5vw, 44px); letter-spacing: -0.03em;
+  line-height: 1.1; margin-bottom: 16px;
+}
+.app-text-slide h2 em { color: var(--red); font-style: normal; }
+.app-text-slide p {
+  font-size: 15px; color: rgba(247,245,240,0.65); line-height: 1.7;
+}
+.app-step-dots {
+  display: flex; gap: 10px; margin-top: 32px;
+}
+.app-step-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(247,245,240,0.2); transition: background 0.3s, transform 0.3s;
+}
+.app-step-dot.active { background: var(--white); transform: scale(1.4); }
+
+/* ═══════════════════════════════════════════
+   ABOUT SECTION
+═══════════════════════════════════════════ */
+.about-section {
+  padding: 120px 48px; max-width: 900px; margin: 0 auto;
+  border-bottom: 1.5px solid var(--ink);
+}
+.about-label {
+  font-family: var(--sans); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--light); margin-bottom: 20px;
+}
+.about-h2 {
+  font-family: var(--sans); font-weight: 700;
+  font-size: clamp(32px, 5vw, 60px); letter-spacing: -0.03em;
+  line-height: 1.1; margin-bottom: 40px;
+}
+.about-body {
+  font-size: clamp(16px, 2vw, 20px); color: var(--mid);
+  line-height: 1.8; max-width: 680px; margin-bottom: 24px;
+}
+.about-body strong { color: var(--ink); font-weight: 600; }
+.about-note {
+  font-family: var(--typewriter); font-size: 15px;
+  color: var(--mid); padding: 20px; border-left: 3px solid var(--red);
+  background: var(--paper); border-radius: 0 4px 4px 0;
+  max-width: 560px; margin-top: 32px;
+  opacity: 0; transform: translateX(-16px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+.about-note.revealed { opacity: 1; transform: none; }
+
+/* Pencil divider */
+.pencil-divider {
+  display: flex; align-items: center; gap: 16px;
+  margin: 48px 0;
+}
+.pencil-line { flex: 1; height: 1px; background: #E0DCD6; }
+.pencil-icon { font-size: 24px; transform: rotate(-30deg); }
+
+/* ═══════════════════════════════════════════
+   SUPPORT SECTION
+═══════════════════════════════════════════ */
+.support-section {
+  padding: 120px 48px;
+  background: var(--paper);
+  border-top: 1.5px solid var(--ink);
+  border-bottom: 1.5px solid var(--ink);
+}
+.support-inner { max-width: 960px; margin: 0 auto; }
+.support-label {
+  font-family: var(--sans); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--light); margin-bottom: 20px;
+}
+.support-h2 {
+  font-family: var(--sans); font-weight: 700;
+  font-size: clamp(32px, 5vw, 60px); letter-spacing: -0.03em;
+  line-height: 1.1; margin-bottom: 16px;
+}
+.support-sub {
+  font-size: clamp(15px, 2vw, 18px); color: var(--mid);
+  max-width: 560px; line-height: 1.7; margin-bottom: 64px;
+}
+.support-cards {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+.support-card {
+  background: var(--white); border: 1.5px solid var(--ink);
+  border-radius: 8px; padding: 36px 28px;
+  display: flex; flex-direction: column; gap: 16px;
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+.support-card.revealed { opacity: 1; transform: none; }
+.support-card:nth-child(2) { transition-delay: 0.1s; }
+.support-card:nth-child(3) { transition-delay: 0.2s; }
+.sc-icon { font-size: 36px; }
+.sc-title {
+  font-family: var(--sans); font-weight: 700; font-size: 20px;
+  letter-spacing: -0.02em;
+}
+.sc-body { font-size: 14px; color: var(--mid); line-height: 1.65; flex: 1; }
+.sc-btn {
+  display: inline-block; font-family: var(--sans); font-weight: 700;
+  font-size: 14px; padding: 12px 24px; border-radius: 40px;
+  background: var(--ink); color: var(--white);
+  text-align: center; transition: background 0.2s, transform 0.2s;
+}
+.sc-btn:hover { background: var(--red); transform: translateY(-1px); }
+.sc-btn.ghost {
+  background: transparent; color: var(--ink);
+  border: 1.5px solid var(--ink);
+}
+.sc-btn.ghost:hover { background: var(--ink); color: var(--white); }
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer {
+  padding: 48px 48px 64px;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  border-top: 1.5px solid var(--ink);
+  flex-wrap: wrap; gap: 32px;
+}
+.footer-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--sans); font-weight: 600; font-size: 15px;
+  margin-bottom: 8px;
+}
+.footer-tagline { font-size: 13px; color: var(--mid); max-width: 240px; line-height: 1.5; }
+.footer-links {
+  display: flex; gap: 32px; list-style: none;
+  font-family: var(--sans); font-size: 13px;
+}
+.footer-links a { color: var(--mid); transition: color 0.2s; }
+.footer-links a:hover { color: var(--ink); }
+.footer-copy { font-size: 12px; color: var(--light); }
+
+/* ═══════════════════════════════════════════
+   FLOATING PENCIL CURSOR TRAIL
+═══════════════════════════════════════════ */
+.cursor-dot {
+  position: fixed; pointer-events: none; z-index: 9999;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--red); opacity: 0;
+  transition: opacity 0.3s;
+  mix-blend-mode: multiply;
+}
+
+/* ═══════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════ */
+.reveal-on-scroll {
+  opacity: 0; transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-on-scroll.revealed {
+  opacity: 1; transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  nav { padding: 14px 24px; }
+  .nav-links { display: none; }
+  .hero { padding: 100px 24px 80px; }
+  .hero-margin { display: none; }
+  .problems-sticky { grid-template-columns: 1fr; }
+  .problems-visual-col { display: none; }
+  .book-scene { width: 280px; height: 200px; }
+  .book-label { display: none; }
+  .app-layout { flex-direction: column; gap: 40px; }
+  .app-text-col { max-width: 100%; text-align: center; padding: 0 24px; }
+  .board-mission-grid { grid-template-columns: 1fr; }
+  .support-cards { grid-template-columns: 1fr; }
+  footer { flex-direction: column; padding: 40px 24px 80px; }
+  .chalkboard-section { padding: 80px 24px; }
+  .about-section { padding: 80px 24px; }
+  .support-section { padding: 80px 24px; }
+}
+  </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <a href="https://thenoroteclub.vercel.app" class="logo-link">
-      <span class="logo-t">T</span>
-      <span class="logo-text">no-rote club</span>
-    </a>
-    <a href="https://thenoroteclub.vercel.app" class="nav-back">← Back to site</a>
-  </nav>
+<!-- NAV -->
+<nav id="top">
+  <a href="#top" class="nav-logo">
+    <div class="nav-t">T</div>
+    no-rote club
+  </a>
+  <ul class="nav-links">
+    <li><a href="#mission">Mission</a></li>
+    <li><a href="#problem">The Problem</a></li>
+    <li><a href="#solution">The Fix</a></li>
+    <li><a href="#support">Support Us</a></li>
+  </ul>
+  <a href="https://thenoroteclub.vercel.app/fake_donate_page.html" class="nav-cta">Donate Now</a>
+</nav>
 
-  <!-- SCENE 1: THE LOOP -->
-  <section class="scene scene-loop" id="scene-loop">
-    <div class="scene-label">01 / THE LOOP</div>
-    <div class="typewriter-stage">
-      <div class="rote-command" id="roteCommand"></div>
-      <div class="strikethrough-bar" id="strikeBar"></div>
-      <div class="counter-tag" id="counterTag">×1</div>
-    </div>
-    <p class="scene-sub">The system makes you repeat it until it breaks you — or until you break first.</p>
-  </section>
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <!-- Ruled paper lines -->
+  <div class="hero-lines" id="heroLines"></div>
+  <div class="hero-margin"></div>
 
-  <!-- SCENE 2: MARKS ≠ INTELLIGENCE -->
-  <section class="scene scene-marks" id="scene-marks">
-    <div class="scene-label">02 / THE LIE</div>
-    <div class="equation-wrap">
-      <div class="eq-left">
-        <div class="grade-circle" id="gradeCircle">
-          <span class="grade-num" id="gradeNum">95</span>
-          <span class="grade-pct">%</span>
-        </div>
-        <span class="eq-label">your mark</span>
-      </div>
-      <div class="neq-sign" id="neqSign">≠</div>
-      <div class="eq-right">
-        <div class="brain-icon">
-          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M40 12 C24 12 14 24 14 36 C14 44 18 50 26 54 C26 60 28 66 36 68 C36 72 38 74 40 74 C42 74 44 72 44 68 C52 66 54 60 54 54 C62 50 66 44 66 36 C66 24 56 12 40 12Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-            <path d="M40 20 C40 28 34 32 28 32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <path d="M40 20 C40 28 46 32 52 32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <path d="M26 42 C30 40 34 44 38 42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <path d="M42 42 C46 40 50 44 54 42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <path d="M33 54 C36 50 44 50 47 54" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <span class="eq-label">your intelligence</span>
-      </div>
-    </div>
-    <p class="scene-sub">A number that measures recall speed under stress, not ability.</p>
-  </section>
-
-  <!-- SCENE 3: THE BREAK -->
-  <section class="scene scene-break" id="scene-break">
-    <div class="scene-label">03 / THE BREAK</div>
-    <div class="break-stage">
-      <div class="word-grid" id="wordGrid">
-        <span class="wg-word" style="--d:0s">ROTE</span>
-        <span class="wg-word" style="--d:.1s">COPY</span>
-        <span class="wg-word" style="--d:.2s">REPEAT</span>
-        <span class="wg-word" style="--d:.3s">MEMORISE</span>
-        <span class="wg-word" style="--d:.4s">REPRODUCE</span>
-        <span class="wg-word" style="--d:.5s">FORGET</span>
-        <span class="wg-word" style="--d:.6s">COPY</span>
-        <span class="wg-word" style="--d:.7s">REPEAT</span>
-        <span class="wg-word" style="--d:.8s">ROTE</span>
-      </div>
-      <div class="break-text" id="breakText">
-        <div class="break-line">WE'RE</div>
-        <div class="break-line delay-1">DONE.</div>
-      </div>
-    </div>
-    <p class="scene-sub">Understanding over memorisation. Always.</p>
-  </section>
-
-  <!-- SCENE 4: BUILD SOMETHING BETTER -->
-  <section class="scene scene-build" id="scene-build">
-    <div class="scene-label">04 / THE ALTERNATIVE</div>
-    <div class="pillars">
-      <div class="pillar" style="--ph: 60px; --pd: 0s">
-        <div class="pillar-bar"></div>
-        <span class="pillar-label">MIND</span>
-      </div>
-      <div class="pillar" style="--ph: 100px; --pd: .2s">
-        <div class="pillar-bar"></div>
-        <span class="pillar-label">MONEY</span>
-      </div>
-      <div class="pillar" style="--ph: 80px; --pd: .4s">
-        <div class="pillar-bar"></div>
-        <span class="pillar-label">BODY</span>
-      </div>
-    </div>
-    <div class="build-tagline">
-      <span class="bt-small">we're building</span>
-      <span class="bt-big">the alternative</span>
-    </div>
-    <a href="https://thenoroteclub.vercel.app/#support" class="cta-btn">Fund the syllabus →</a>
-  </section>
-
-  <!-- AMBIENT TICKER -->
-  <div class="ticker-wrap" aria-hidden="true">
-    <div class="ticker-track">
-      <span>ROTE LEARNING KILLS CURIOSITY</span>
-      <span>✦</span>
-      <span>MARKS ≠ INTELLIGENCE</span>
-      <span>✦</span>
-      <span>BUILD. DON'T MEMORISE.</span>
-      <span>✦</span>
-      <span>OPEN SOURCE. FREE. FOREVER.</span>
-      <span>✦</span>
-      <span>ROTE LEARNING KILLS CURIOSITY</span>
-      <span>✦</span>
-      <span>MARKS ≠ INTELLIGENCE</span>
-      <span>✦</span>
-      <span>BUILD. DON'T MEMORISE.</span>
-      <span>✦</span>
-      <span>OPEN SOURCE. FREE. FOREVER.</span>
-      <span>✦</span>
-    </div>
+  <!-- Background noise words (rote commands) -->
+  <div class="hero-noise">
+    <span style="--r:-2deg">WRITE THIS 100 TIMES.</span>
+    <span style="--r:1.5deg">memorise pg. 47–52</span>
+    <span style="--r:-1deg">✗ marks ≠ intelligence</span>
+    <span style="--r:2deg">re-write. re-write. re-write.</span>
+    <span style="--r:-1.5deg">✗ SYLLABUS COMPLETED ≠ LEARNED</span>
+    <span style="--r:1deg">8/10 copy from board</span>
+    <span style="--r:-2deg">✗ no time for questions</span>
+    <span style="--r:2.5deg">DUE TOMORROW</span>
   </div>
 
-  <script src="script.js"></script>
+  <div class="hero-badge">A teen-built, teen-run nonprofit</div>
+  <h1 class="hero-h1">Welcome to the<br><em>No-Rote</em> Club.</h1>
+  <p class="hero-sub">We're done memorising. We're building something better — out loud, in the open, starting now.</p>
+  <div class="hero-btns">
+    <a href="#support" class="btn-primary">Fund the syllabus</a>
+    <a href="#problem" class="btn-ghost">See the problem ↓</a>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>scroll to clear the noise</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ═══ BOOK SCROLL ANIMATION ═══ -->
+<div class="book-scroll-wrapper" id="bookWrapper">
+  <div class="book-scroll-sticky" id="bookSticky">
+
+    <div class="book-label book-label-left" id="bookLabelLeft">
+      <span class="accent" id="bookLabelText">Twelve years</span><br>of the same<br>chapter.
+    </div>
+
+    <div class="book-scene" id="bookScene">
+      <div class="book-cover-left" id="bookLeft">
+        <div class="book-cover-left-text">No-Rote Club</div>
+      </div>
+      <div class="book-spine"></div>
+      <div class="book-pages" id="bookPages">
+        <div class="book-rule"></div>
+        <div class="book-text-line" id="bl1" style="width:90%"></div>
+        <div class="book-text-line" id="bl2" style="width:75%"></div>
+        <div class="book-text-line red-mark" id="bl3"></div>
+        <div class="book-text-line" id="bl4" style="width:85%"></div>
+        <div class="book-text-line striked" id="bl5" style="width:70%"></div>
+        <div class="book-text-line red-mark" id="bl6"></div>
+        <div class="book-rule"></div>
+        <div class="book-text-line" id="bl7" style="width:80%"></div>
+        <div class="book-text-line" id="bl8" style="width:65%"></div>
+      </div>
+      <div class="book-cover-right" id="bookRight"></div>
+    </div>
+
+    <div class="book-label book-label-right" id="bookLabelRight">
+      We're writing<br>a <span class="accent">new one.</span>
+    </div>
+
+    <div class="book-dots">
+      <div class="book-dot active" id="bd0"></div>
+      <div class="book-dot" id="bd1"></div>
+      <div class="book-dot" id="bd2"></div>
+      <div class="book-dot" id="bd3"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CHALKBOARD / MISSION ═══ -->
+<section class="chalkboard-section" id="mission">
+  <div class="chalk-tray">
+    <div class="chalk-stick"></div>
+    <div class="chalk-stick"></div>
+    <div class="chalk-stick"></div>
+  </div>
+  <div class="board-content">
+    <div class="board-section-label">Our Mission</div>
+    <h2 class="board-h2">
+      We're not asking the system to change.<br>
+      We're building <span class="chalk-underline" id="chalkUnderline">the alternative.</span>
+    </h2>
+
+    <div class="chalk-write-line" id="cw1">The No-Rote Club is a nonprofit founded and run by teenagers...</div>
+    <div class="chalk-write-line" id="cw2">...who got tired of waiting for reform that never comes.</div>
+    <div class="chalk-write-line crossed" id="cw3">ROTE. REPEAT. REPRODUCE. FORGET.</div>
+
+    <div class="board-mission-grid">
+      <div class="board-card" id="bc1">
+        <div class="board-card-tag">No paywall</div>
+        <h3>Open-source, always</h3>
+        <p>Every lesson we build gets published openly. No school code, no subscription tier, no "premium curriculum."</p>
+      </div>
+      <div class="board-card" id="bc2">
+        <div class="board-card-tag">No single path</div>
+        <h3>Built for how you actually learn</h3>
+        <p>Visual, auditory, hands-on, story-based — the same concept, taught five different ways.</p>
+      </div>
+      <div class="board-card" id="bc3">
+        <div class="board-card-tag">No gatekeeping</div>
+        <h3>Built with experts, run by teens</h3>
+        <p>We bring in subject-matter experts to make sure what we teach is rigorous. We decide what gets built.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROBLEMS — REPORT CARD SCROLL ═══ -->
+<div class="problems-sticky-wrapper" id="problemsWrapper">
+  <div class="problems-sticky" id="problemsSticky">
+    <!-- Left col -->
+    <div class="problems-text-col">
+      <div class="prob-section-label" id="problem">The Problem</div>
+      <h2 class="prob-h2">Four things wrong with how we're taught.</h2>
+      <div class="prob-items">
+        <div class="prob-item active" id="pi0">
+          <div class="prob-num">01</div>
+          <div class="prob-title">Rote learning kills creativity</div>
+          <div class="prob-desc">We're trained to reproduce, not to think. Twelve years of copying down "the correct answer" teaches you what to write, never why it's true — so the moment a question looks unfamiliar, the whole system breaks down.</div>
+        </div>
+        <div class="prob-item" id="pi1">
+          <div class="prob-num">02</div>
+          <div class="prob-title">Marks ≠ intelligence</div>
+          <div class="prob-desc">A 95% on a test you forgot by Friday says nothing about what you understand. We've built an entire identity crisis for a generation around a number that measures recall speed under stress, not ability.</div>
+        </div>
+        <div class="prob-item" id="pi2">
+          <div class="prob-num">03</div>
+          <div class="prob-title">No space for curiosity</div>
+          <div class="prob-desc">Ask "why" in most classrooms and you'll get "it's in the syllabus, not on the test." Curiosity isn't rewarded — it's a scheduling problem for someone trying to finish a chapter before the bell rings.</div>
+        </div>
+        <div class="prob-item" id="pi3">
+          <div class="prob-num">04</div>
+          <div class="prob-title">The exam is the priority</div>
+          <div class="prob-desc">It's not really the teacher's fault — they're measured by board results too. But it means whole subjects get compressed into "what's likely to be asked," and anything that won't appear in the exam quietly disappears.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right col: animated report card -->
+    <div class="problems-visual-col">
+      <div class="report-paper-lines" id="reportLines"></div>
+      <div class="rpl-margin"></div>
+      <div class="rc-question" id="rcQuestion">?</div>
+
+      <div class="report-card">
+        <div class="rc-stamp" id="rcStamp">Exam-Ready</div>
+        <div class="rc-header">
+          <div class="rc-title">Annual Report Card</div>
+          <div class="rc-sub">Student Performance — Board Exam Year</div>
+        </div>
+        <div class="rc-rows">
+          <div class="rc-row" id="rr0">
+            <span class="rc-subject">Mathematics</span>
+            <div class="rc-grade" id="rg0">A</div>
+          </div>
+          <div class="rc-row" id="rr1">
+            <span class="rc-subject">Science</span>
+            <div class="rc-grade" id="rg1">B+</div>
+          </div>
+          <div class="rc-row" id="rr2">
+            <span class="rc-subject">Curiosity</span>
+            <div class="rc-grade red-grade" id="rg2">—</div>
+          </div>
+          <div class="rc-row" id="rr3">
+            <span class="rc-subject">Critical Thinking</span>
+            <div class="rc-grade red-grade" id="rg3">F</div>
+          </div>
+          <div class="rc-row" id="rr4">
+            <span class="rc-subject">Creativity</span>
+            <div class="rc-grade red-grade" id="rg4">F</div>
+          </div>
+          <div class="rc-row" id="rr5">
+            <span class="rc-subject">Understanding</span>
+            <div class="rc-grade red-grade" id="rg5">D</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ APP SECTION — PHONE SCROLL ═══ -->
+<div class="app-scroll-wrapper" id="appWrapper">
+  <div class="app-scroll-sticky" id="appSticky">
+    <div class="app-bg-text">BUILD</div>
+    <div class="app-layout">
+      <!-- Phone -->
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <!-- Slide 1: Home screen -->
+          <div class="phone-slide ps-home active" id="pslide0">
+            <div class="ps-app-bar">
+              <div class="ps-app-dot">T</div>
+              <span class="ps-app-name">No-Rote Club</span>
+            </div>
+            <div class="ps-greeting">Good morning 👋</div>
+            <div class="ps-sub-text">Ready to actually understand something?</div>
+            <div class="ps-cards">
+              <div class="ps-card">
+                <div class="ps-card-icon" style="background:#FFF3F3">📚</div>
+                <div>
+                  <div class="ps-card-title">Mind — Lesson 3</div>
+                  <div class="ps-card-prog">Critical Thinking</div>
+                  <div class="ps-prog-bar"><div class="ps-prog-fill" style="width:45%"></div></div>
+                </div>
+              </div>
+              <div class="ps-card">
+                <div class="ps-card-icon" style="background:#F3FFF3">💰</div>
+                <div>
+                  <div class="ps-card-title">Money — Lesson 7</div>
+                  <div class="ps-card-prog">Compound Interest</div>
+                  <div class="ps-prog-bar"><div class="ps-prog-fill" style="width:20%"></div></div>
+                </div>
+              </div>
+              <div class="ps-card">
+                <div class="ps-card-icon" style="background:#F3F3FF">🏃</div>
+                <div>
+                  <div class="ps-card-title">Body — Lesson 1</div>
+                  <div class="ps-card-prog">Sleep Science</div>
+                  <div class="ps-prog-bar"><div class="ps-prog-fill" style="width:75%"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2: Lesson view -->
+          <div class="phone-slide ps-lesson" id="pslide1">
+            <div class="ps-lesson-tag">Mind · Lesson 3</div>
+            <div class="ps-lesson-title">What is Critical Thinking?</div>
+            <div class="ps-lesson-sub">Expert-reviewed · 8 min read</div>
+            <div class="ps-lesson-body">
+              Critical thinking isn't just about being skeptical. It's about asking the right questions — and knowing when you don't have enough information to answer them.
+            </div>
+            <div class="ps-lesson-actions">
+              <div class="ps-btn ps-btn-primary">Take Quiz</div>
+              <div class="ps-btn ps-btn-ghost">Watch</div>
+            </div>
+          </div>
+
+          <!-- Slide 3: Quiz -->
+          <div class="phone-slide ps-quiz" id="pslide2">
+            <div class="ps-quiz-header">Quick Check</div>
+            <div class="ps-quiz-sub">Question 2 of 5 · Critical Thinking</div>
+            <div class="ps-question">
+              Which of these is NOT a logical fallacy?
+            </div>
+            <div class="ps-options">
+              <div class="ps-option wrong">
+                <div class="ps-option-dot"></div>
+                <span>Ad hominem</span>
+              </div>
+              <div class="ps-option correct">
+                <div class="ps-option-dot"></div>
+                <span>Peer-reviewed evidence</span>
+              </div>
+              <div class="ps-option">
+                <div class="ps-option-dot"></div>
+                <span>Straw man argument</span>
+              </div>
+              <div class="ps-option">
+                <div class="ps-option-dot"></div>
+                <span>Appeal to authority</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text col -->
+      <div class="app-text-col">
+        <div class="app-section-label" id="solution">What We're Building</div>
+        <div class="app-slides-text">
+          <div class="app-text-slide active" id="atslide0">
+            <h2>An app, not<br>another <em>protest.</em></h2>
+            <p>Talk doesn't fix a syllabus. So we're building one. An open-source learning app — free, forever — with lessons crafted alongside real subject experts.</p>
+          </div>
+          <div class="app-text-slide" id="atslide1">
+            <h2><em>Expert-built</em><br>lessons.</h2>
+            <p>Every topic reviewed by people who actually know the subject — not just whoever wrote the textbook in 2009. Delivered through whichever way actually gets a concept into your head.</p>
+          </div>
+          <div class="app-text-slide" id="atslide2">
+            <h2>Multiple<br>ways <em>in.</em></h2>
+            <p>Watch it, read it, build it, or hear it explained like a story. Same depth, different doors. No login wall, no paywall. Built in public, improved in public, owned by no one.</p>
+          </div>
+        </div>
+        <div class="app-step-dots">
+          <div class="app-step-dot active" id="asd0"></div>
+          <div class="app-step-dot" id="asd1"></div>
+          <div class="app-step-dot" id="asd2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ABOUT ═══ -->
+<section class="about-section">
+  <div class="about-label">About Us</div>
+  <h2 class="about-h2 reveal-on-scroll">Run by the students<br>it's built for.</h2>
+  <p class="about-body reveal-on-scroll">
+    The No-Rote Club isn't a company with a youth marketing campaign. It's actually started and run by a teenager who is currently sitting through the same system we're trying to fix — homeschool, board exams, the whole thing. <strong>We're not consultants telling you what students need. We are the students.</strong>
+  </p>
+  <p class="about-body reveal-on-scroll">
+    We fund this through social media, our community of supporters, and donations — every rupee goes toward paying subject experts and building the app, not offices or salaries.
+  </p>
+
+  <div class="pencil-divider">
+    <div class="pencil-line"></div>
+    <span class="pencil-icon">✏️</span>
+    <div class="pencil-line"></div>
+  </div>
+
+  <div class="about-note" id="aboutNote">
+    "We're not asking the system to change. We're building the alternative — out loud, in the open, starting now."
+  </div>
+</section>
+
+<!-- ═══ SUPPORT ═══ -->
+<section class="support-section" id="support">
+  <div class="support-inner">
+    <div class="support-label">Support Us</div>
+    <h2 class="support-h2 reveal-on-scroll">Building this costs<br>real money.</h2>
+    <p class="support-sub reveal-on-scroll">We're not VC-funded. We don't have a marks budget. Every lesson, every expert review, every line of the app gets built on what our community puts in.</p>
+
+    <div class="support-cards">
+      <div class="support-card" id="sc0">
+        <div class="sc-icon">📖</div>
+        <div class="sc-title">Donate</div>
+        <div class="sc-body">Direct funding for expert syllabus reviews and development. Every amount goes straight into building the next lesson.</div>
+        <a href="https://thenoroteclub.vercel.app/fake_donate_page.html" class="sc-btn">Donate now</a>
+      </div>
+      <div class="support-card" id="sc1">
+        <div class="sc-icon">📱</div>
+        <div class="sc-title">Follow &amp; Share</div>
+        <div class="sc-body">Our biggest growth lever is attention. Following and sharing our content directly funds us through social platforms.</div>
+        <a href="#" class="sc-btn ghost">Follow on Instagram</a>
+      </div>
+      <div class="support-card" id="sc2">
+        <div class="sc-icon">📢</div>
+        <div class="sc-title">Spread the Word</div>
+        <div class="sc-body">Tell a teacher, a parent, a student who's tired of memorising. The more of us there are, the faster this gets built.</div>
+        <a href="#" class="sc-btn ghost">Share the mission</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div>
+    <div class="footer-logo">
+      <div class="nav-t">T</div>
+      no-rote club
+    </div>
+    <p class="footer-tagline">Built by teens. Funded by people who agree with us. Owned by no one.</p>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#mission">Mission</a></li>
+    <li><a href="#problem">The Problem</a></li>
+    <li><a href="#solution">The Fix</a></li>
+    <li><a href="#support">Support Us</a></li>
+  </ul>
+  <p class="footer-copy">© The No-Rote Club. Open-source, forever.</p>
+</footer>
+
+<!-- TICKER -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-track">
+    <span>ROTE LEARNING KILLS CREATIVITY</span><span>✦</span>
+    <span>MARKS ≠ INTELLIGENCE</span><span>✦</span>
+    <span>NO SPACE FOR CURIOSITY</span><span>✦</span>
+    <span>TEACHERS TEACH TO THE TEST</span><span>✦</span>
+    <span>OPEN-SOURCE. FREE. FOREVER.</span><span>✦</span>
+    <span>ROTE LEARNING KILLS CREATIVITY</span><span>✦</span>
+    <span>MARKS ≠ INTELLIGENCE</span><span>✦</span>
+    <span>NO SPACE FOR CURIOSITY</span><span>✦</span>
+    <span>TEACHERS TEACH TO THE TEST</span><span>✦</span>
+    <span>OPEN-SOURCE. FREE. FOREVER.</span><span>✦</span>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   HERO RULED LINES
+═══════════════════════════════════════════ */
+const heroLines = document.getElementById('heroLines');
+for (let i = 0; i < 30; i++) {
+  const l = document.createElement('div');
+  l.className = 'hero-line';
+  l.style.top = (i * 38 + 90) + 'px';
+  heroLines.appendChild(l);
+}
+
+/* ═══════════════════════════════════════════
+   BOOK SCROLL
+═══════════════════════════════════════════ */
+const bookWrapper = document.getElementById('bookWrapper');
+const bookLeft    = document.getElementById('bookLeft');
+const bookRight   = document.getElementById('bookRight');
+const bookPages   = document.getElementById('bookPages');
+const bookLabelLeft  = document.getElementById('bookLabelLeft');
+const bookLabelRight = document.getElementById('bookLabelRight');
+const bookLabelText  = document.getElementById('bookLabelText');
+const textLines = ['bl1','bl2','bl3','bl4','bl5','bl6','bl7','bl8'].map(id => document.getElementById(id));
+const dots = [0,1,2,3].map(i => document.getElementById('bd'+i));
+
+// Book scroll phases: 0=closed, 1=opening, 2=open+content, 3=open+right label
+function updateBook(progress) {
+  // progress: 0 → 1 across the 400vh wrapper
+  const p = Math.max(0, Math.min(1, progress));
+
+  // Phase 1: 0→0.25 — covers open
+  const openP = Math.min(1, p / 0.25);
+  const leftDeg  = openP * -70;  // left cover swings left
+  const rightDeg = openP * 70;   // right cover swings right
+  const pagesW   = openP * 240;  // pages expand
+
+  bookLeft.style.transform  = `perspective(800px) rotateY(${leftDeg}deg)`;
+  bookRight.style.transform = `perspective(800px) rotateY(${rightDeg}deg)`;
+  bookPages.style.width     = pagesW + 'px';
+
+  // Phase 2: 0.25→0.5 — text lines appear
+  const textP = Math.max(0, Math.min(1, (p - 0.25) / 0.25));
+  textLines.forEach((el, i) => {
+    el.style.opacity = Math.min(1, textP * 8 - i * 0.8) > 0 ? Math.min(1, textP * 8 - i * 0.8) : 0;
+  });
+
+  // Phase 3: 0.5→0.75 — left label
+  const llP = Math.max(0, Math.min(1, (p - 0.5) / 0.25));
+  if (llP > 0) {
+    bookLabelLeft.classList.add('visible');
+  } else {
+    bookLabelLeft.classList.remove('visible');
+  }
+
+  // Phase 4: 0.75→1 — right label
+  const rlP = Math.max(0, Math.min(1, (p - 0.75) / 0.25));
+  if (rlP > 0) {
+    bookLabelRight.classList.add('visible');
+  } else {
+    bookLabelRight.classList.remove('visible');
+  }
+
+  // Dots
+  const dotIdx = Math.floor(p * 4);
+  dots.forEach((d,i) => {
+    d.classList.toggle('active', i === Math.min(dotIdx, 3));
+  });
+}
+
+/* ═══════════════════════════════════════════
+   PROBLEMS SCROLL (report card)
+═══════════════════════════════════════════ */
+const problemsWrapper = document.getElementById('problemsWrapper');
+const probItems = [0,1,2,3].map(i => document.getElementById('pi'+i));
+const rcRows    = [0,1,2,3,4,5].map(i => document.getElementById('rr'+i));
+const rcStamp   = document.getElementById('rcStamp');
+const rcQuestion = document.getElementById('rcQuestion');
+
+// Ruled lines for report card paper
+const reportLines = document.getElementById('reportLines');
+for (let i = 0; i < 20; i++) {
+  const l = document.createElement('div');
+  l.className = 'rpl';
+  l.style.top = (i * 40 + 60) + 'px';
+  reportLines.appendChild(l);
+}
+
+function updateProblems(progress) {
+  const p = Math.max(0, Math.min(1, progress));
+  const idx = Math.min(3, Math.floor(p * 4));
+
+  probItems.forEach((el, i) => {
+    el.classList.remove('active','done');
+    if (i === idx) el.classList.add('active');
+    if (i < idx) el.classList.add('done');
+  });
+
+  // Show report card rows progressively
+  rcRows.forEach((row, i) => {
+    const threshold = i * 0.15;
+    row.classList.toggle('visible', p > threshold);
+  });
+
+  // Stamp appears at end
+  rcStamp.classList.toggle('visible', p > 0.8);
+  rcQuestion.classList.toggle('pop', p > 0.5);
+}
+
+/* ═══════════════════════════════════════════
+   APP / PHONE SCROLL
+═══════════════════════════════════════════ */
+const appWrapper = document.getElementById('appWrapper');
+const phoneSlides = [0,1,2].map(i => document.getElementById('pslide'+i));
+const appTextSlides = [0,1,2].map(i => document.getElementById('atslide'+i));
+const appDots = [0,1,2].map(i => document.getElementById('asd'+i));
+
+function updateApp(progress) {
+  const p = Math.max(0, Math.min(1, progress));
+  const idx = Math.min(2, Math.floor(p * 3));
+
+  phoneSlides.forEach((s, i) => s.classList.toggle('active', i === idx));
+  appTextSlides.forEach((s, i) => s.classList.toggle('active', i === idx));
+  appDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+}
+
+/* ═══════════════════════════════════════════
+   CHALKBOARD ANIMATIONS
+═══════════════════════════════════════════ */
+const chalkSection  = document.querySelector('.chalkboard-section');
+const chalkUnderline = document.getElementById('chalkUnderline');
+const cwLines = ['cw1','cw2','cw3'].map(id => document.getElementById(id));
+const boardCards = ['bc1','bc2','bc3'].map(id => document.getElementById(id));
+let chalkAnimated = false;
+
+function animateChalkboard() {
+  if (chalkAnimated) return;
+  chalkAnimated = true;
+  setTimeout(() => chalkUnderline.classList.add('drawn'), 200);
+  cwLines.forEach((el, i) => {
+    setTimeout(() => el.classList.add('written'), 400 + i * 500);
+  });
+  boardCards.forEach((el, i) => {
+    setTimeout(() => el.classList.add('revealed'), 1200 + i * 200);
+  });
+}
+
+/* ═══════════════════════════════════════════
+   GENERIC REVEAL
+═══════════════════════════════════════════ */
+const revealEls = document.querySelectorAll('.reveal-on-scroll');
+const aboutNote = document.getElementById('aboutNote');
+const supportCards = ['sc0','sc1','sc2'].map(id => document.getElementById(id));
+
+/* ═══════════════════════════════════════════
+   MASTER SCROLL HANDLER
+═══════════════════════════════════════════ */
+function onScroll() {
+  const scrollY = window.scrollY;
+  const vh = window.innerHeight;
+
+  // Book
+  const bookRect = bookWrapper.getBoundingClientRect();
+  const bookTotal = bookWrapper.offsetHeight - vh;
+  const bookProgress = -bookRect.top / bookTotal;
+  updateBook(bookProgress);
+
+  // Problems
+  const probRect = problemsWrapper.getBoundingClientRect();
+  const probTotal = problemsWrapper.offsetHeight - vh;
+  const probProgress = -probRect.top / probTotal;
+  updateProblems(probProgress);
+
+  // App
+  const appRect = appWrapper.getBoundingClientRect();
+  const appTotal = appWrapper.offsetHeight - vh;
+  const appProgress = -appRect.top / appTotal;
+  updateApp(appProgress);
+
+  // Chalkboard
+  const cbRect = chalkSection.getBoundingClientRect();
+  if (cbRect.top < vh * 0.7) animateChalkboard();
+
+  // Generic reveals
+  revealEls.forEach(el => {
+    const r = el.getBoundingClientRect();
+    if (r.top < vh * 0.85) el.classList.add('revealed');
+  });
+
+  // About note
+  const anRect = aboutNote.getBoundingClientRect();
+  if (anRect.top < vh * 0.85) aboutNote.classList.add('revealed');
+
+  // Support cards
+  supportCards.forEach((el, i) => {
+    const r = el.getBoundingClientRect();
+    if (r.top < vh * 0.9) {
+      setTimeout(() => el.classList.add('revealed'), i * 100);
+    }
+  });
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll(); // initial
+
+/* ═══════════════════════════════════════════
+   PENCIL CURSOR TRAIL
+═══════════════════════════════════════════ */
+const dots_trail = [];
+const N_DOTS = 8;
+for (let i = 0; i < N_DOTS; i++) {
+  const d = document.createElement('div');
+  d.className = 'cursor-dot';
+  d.style.opacity = (1 - i / N_DOTS) * 0.6;
+  d.style.width = d.style.height = (6 - i * 0.5) + 'px';
+  document.body.appendChild(d);
+  dots_trail.push({ el: d, x: 0, y: 0 });
+}
+let mx = 0, my = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animTrail() {
+  let px = mx, py = my;
+  dots_trail.forEach((dot, i) => {
+    dot.x += (px - dot.x) * (0.25 - i * 0.02);
+    dot.y += (py - dot.y) * (0.25 - i * 0.02);
+    dot.el.style.left = (dot.x - 3) + 'px';
+    dot.el.style.top  = (dot.y - 3) + 'px';
+    dot.el.style.opacity = 0.4 - i * 0.04;
+    px = dot.x; py = dot.y;
+  });
+  requestAnimationFrame(animTrail);
+}
+animTrail();
+</script>
 </body>
 </html>
